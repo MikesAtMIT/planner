@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load plans_extras %}
+
+{% block customcss %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/planner-table.css' %}" />
+{% endblock %}
+
+{% block customjs %}
+<script src="{% static 'js/jquery.cookie.js' %}"></script>
+<script src="{% static 'js/planner-table.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div id="planner-table">
+  <div class="table-responsive">
+    <table class="table table-bordered table-condensed">
+      <thead>
+        <tr>
+          <th class="date">&nbsp;</th>
+          {% for experiment in experiments %}
+            <th class="column" data-experiment-id="{{ experiment.id }}">
+              <div class="experiment-project">{{ experiment.project.name }}</div>
+              <div class="experiment-name">{{ experiment.name }}</div>
+            </th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for datum in data %}
+          {% if datum.date.weekday == 5 or datum.date.weekday == 6 %}
+          <tr class="weekend">
+          {% else %}
+          <tr>
+          {% endif %}
+            <th class="date" data-date="{{ datum.date|date:"Y-m-d" }}">{{ datum.date|date:"D, M j, Y" }}</th>
+            {% for task_list in datum.tasks %}
+              <td class="column" data-experiment-id="{{ task_list.experiment_id }}" data-date="{{ datum.date|date:"Y-m-d" }}">
+                {% for task in task_list.task_list %}
+                  {% include 'task_panel.html' with panel_status=task.status|panel_status panel_id=task.id panel_notes=task.notes panel_name=task.name only %}
+                {% endfor %}
+                <button type="button" class="btn btn-default btn-sm btn-block new-task">
+                  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                </button>
+              </td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div><!-- /.table-responsive -->
+</div><!-- /#planner-table -->
+<div class="modal" id="task-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" id="task-form">
+          {% csrf_token %}
+          <input type="hidden" id="task-id" name="task_id" />
+          <div class="form-group">
+            <label for="task-experiment" class="col-sm-3 control-label">Experiment</label>
+            <div class="col-sm-9">
+              <select class="form-control" id="task-experiment" name="task_experiment">
+                {% for experiment in experiments %}
+                  <option value="{{ experiment.id }}">{{ experiment.project }} - {{ experiment }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="task-date" class="col-sm-3 control-label">Date</label>
+            <div class="col-sm-9">
+              <select class="form-control" id="task-date" name="task_date">
+                {% for d in dates %}
+                  <option value="{{ d|date:"Y-m-d" }}">{{ d }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="task-name" class="col-sm-3 control-label">Description</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="task-name" name="task_name" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="task-notes" class="col-sm-3 control-label">Notes</label>
+            <div class="col-sm-9">
+              <textarea class="form-control" id="task-notes" name="task_notes"></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="save-task">Save</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+{% include 'task_panel.html' with div_id='panel-template' only %}
+{% endblock %}

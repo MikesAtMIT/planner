@@ -1,0 +1,72 @@
+/* styling for table scrolling behavior */
+.table{
+  border-collapse: separate;
+  margin-bottom: 0;
+  border-width: 0;
+}
+#main .container{
+  width: 100%;
+  padding: 0;
+}
+th.date{
+  position: -webkit-sticky;
+  top: 50px;
+  left: 0px;
+  background-color: white;
+  opacity: 1;
+  z-index: 11;
+}
+thead th{
+  position: -webkit-sticky;
+  top: 50px;
+  left: 0px;
+  background-color: white;
+  z-index: 10;
+}
+
+/* styling for table appearance (column width, etc) */
+.table td{
+  min-width: 100px;
+}
+th.date{
+  width: 100px;
+  min-width: 100px;
+}
+th.column,td.column{
+  min-width: 150px;
+}
+tr.weekend{
+  background-color: #eee;
+}
+tr.weekend th.date{
+  background-color: #eee;
+}
+
+/* task panel styling */
+.panel{
+  margin-bottom: 5px;
+}
+.task-name{
+  margin-bottom: 10px;
+}
+.task-name:focus{
+  outline: none;
+}
+.task-name:hover{
+  cursor: default;
+}
+.task-action > div{
+  text-align: center;
+  padding: 0;
+}
+.task-action span:hover{
+  cursor: pointer;
+}
+
+/* miscellaneous styling */
+.experiment-name{
+  font-style: italic;
+}
+#panel-template{
+  display: none;
+}
