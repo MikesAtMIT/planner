@@ -32,9 +32,9 @@
             <li>
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Projects <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a nohref>All</a></li>
-                {% for project in projects %}
-                  <li><a nohref>{{ project.name }}</a></li>
+                <li><a href="{% url 'plans.views.calendar' %}">All</a></li>
+                {% for project in all_projects %}
+                  <li><a href="{% url 'plans.views.calendar' project=project.id %}">{{ project.name }}</a></li>
                 {% endfor %}
               </ul>
             </li>

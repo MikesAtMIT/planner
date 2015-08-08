@@ -63,6 +63,7 @@ def calendar(request, d1=None, d2=None, project=None):
         data[date_index]['tasks'][experiment_index]['task_list'].append(task)
 
     context = {
+        'all_projects': Project.objects.exclude(status='D'),     # for nav menu
         'projects': projects,
         'experiments': experiment_list,
         'data': data,
