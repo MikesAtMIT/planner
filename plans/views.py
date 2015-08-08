@@ -1,10 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from plans.models import *
-from datetime import date
 import json
 
+
 def index(request):
+    # placeholder
+    return redirect(calendar)
+
+
+def calendar(request):
     dates = [
         date(2015,7,21),
         date(2015,7,22),
