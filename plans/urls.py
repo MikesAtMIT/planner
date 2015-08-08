@@ -5,6 +5,7 @@ urlpatterns = [
     url(r'^$', views.index),
     url(r'^calendar/$', views.calendar),
     url(r'^calendar/(?P<d1>[0-9]{8})-(?P<d2>[0-9]{8})/$', views.calendar),
+    url(r'^calendar/(?P<project>.+)/$', views.calendar),
 
     # ajax endpoints
     url(r'^toggle-task/$', views.toggle_task),

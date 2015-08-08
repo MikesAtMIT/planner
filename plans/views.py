@@ -10,7 +10,7 @@ def index(request):
     return redirect(calendar)
 
 
-def calendar(request, d1=None, d2=None):
+def calendar(request, d1=None, d2=None, project=None):
 
     if d1 is None and d2 is None:
         # with no date range specified, default is today +/- 15 days
@@ -24,9 +24,13 @@ def calendar(request, d1=None, d2=None):
     time_diff = (end_date - start_date).days
     dates = [start_date + timedelta(days=x) for x in range(0, time_diff+1)]
 
-    projects = Project.objects.all().exclude(status='D')
+    if project is None:
+        projects = Project.objects.exclude(status='D')
+    else:
+        projects = Project.objects.filter(pk=project)
 
-    experiments = Experiment.objects.all().exclude(status='D')
+    experiments = Experiment.objects.exclude(status='D').filter(project__in=projects)
+
     experiment_list = [e for e in experiments]
 
     '''
@@ -49,10 +53,10 @@ def calendar(request, d1=None, d2=None):
     for d in dates:
         datum = {
             'date': d,
-            'tasks': [{ 'experiment_id': e.id, 'task_list': []} for e in experiments],
+            'tasks': [{ 'experiment_id': e.id, 'task_list': []} for e in experiment_list],
         }
         data.append(datum)
-    tasks = Task.objects.all().exclude(status='D').filter(date__in=dates)
+    tasks = Task.objects.exclude(status='D').filter(date__in=dates).filter(experiment__in=experiment_list)
     for task in tasks:
         date_index = dates.index(task.date)
         experiment_index = experiment_list.index(task.experiment)
