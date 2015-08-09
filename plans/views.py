@@ -123,6 +123,7 @@ def save_new_task(request):
         }
         return HttpResponse(json.dumps(result))
 
+
 def update_task(request):
     # ajax endpoint for updating a task
     if request.method == 'POST':

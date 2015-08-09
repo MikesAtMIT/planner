@@ -74,7 +74,7 @@ $(document).ready(function(){
     $('#task-modal').modal('show');
   });
 
-  $('.new-task').click(function(){
+  $('table').on('click', '.new-task', function(){
     var date = $(this).parent().data('date');
     var experiment = $(this).parent().data('experiment-id');
 
@@ -101,7 +101,6 @@ $(document).ready(function(){
         $new_panel.find('.task-name').html(data.name);
         var $target_td = $('td[data-experiment-id="' + data.experiment + '"][data-date="' + data.date + '"]');
         $new_panel.insertBefore($target_td.children('button'));
-        console.log($new_panel);
         $('#task-modal').modal('hide');
       }
     } else {
