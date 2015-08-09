@@ -1,22 +1,36 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from plans.models import *
-from datetime import date
+from datetime import date, timedelta
 import json
 
+
 def index(request):
-    dates = [
-        date(2015,7,21),
-        date(2015,7,22),
-        date(2015,7,23),
-        date(2015,7,24),
-        date(2015,7,25),
-        date(2015,7,26),
-    ]
+    # placeholder
+    return redirect(calendar)
 
-    projects = Project.objects.all().exclude(status='D')
 
-    experiments = Experiment.objects.all().exclude(status='D')
+def calendar(request, d1=None, d2=None, project=None):
+
+    if d1 is None and d2 is None:
+        # with no date range specified, default is today +/- 15 days
+        start_date = date.today() - timedelta(days=15)
+        end_date = date.today() + timedelta(days=15)
+    else:
+        # use specified date range
+        start_date = date(int(d1[0:4]), int(d1[4:6]), int(d1[6:8]))
+        end_date = date(int(d2[0:4]), int(d2[4:6]), int(d2[6:8]))
+    
+    time_diff = (end_date - start_date).days
+    dates = [start_date + timedelta(days=x) for x in range(0, time_diff+1)]
+
+    if project is None:
+        projects = Project.objects.exclude(status='D')
+    else:
+        projects = Project.objects.filter(pk=project)
+
+    experiments = Experiment.objects.exclude(status='D').filter(project__in=projects)
+
     experiment_list = [e for e in experiments]
 
     '''
@@ -39,16 +53,17 @@ def index(request):
     for d in dates:
         datum = {
             'date': d,
-            'tasks': [{ 'experiment_id': e.id, 'task_list': []} for e in experiments],
+            'tasks': [{ 'experiment_id': e.id, 'task_list': []} for e in experiment_list],
         }
         data.append(datum)
-    tasks = Task.objects.all().exclude(status='D')
+    tasks = Task.objects.exclude(status='D').filter(date__in=dates).filter(experiment__in=experiment_list)
     for task in tasks:
         date_index = dates.index(task.date)
         experiment_index = experiment_list.index(task.experiment)
         data[date_index]['tasks'][experiment_index]['task_list'].append(task)
 
     context = {
+        'all_projects': Project.objects.exclude(status='D'),     # for nav menu
         'projects': projects,
         'experiments': experiment_list,
         'data': data,
@@ -107,6 +122,7 @@ def save_new_task(request):
             'status': task.status,
         }
         return HttpResponse(json.dumps(result))
+
 
 def update_task(request):
     # ajax endpoint for updating a task

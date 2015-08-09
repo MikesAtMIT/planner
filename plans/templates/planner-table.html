@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block customjs %}
-<script src="{% static 'js/jquery.cookie.js' %}"></script>
+<script src="{% static 'vendor/jquery.cookie.js' %}"></script>
 <script src="{% static 'js/planner-table.js' %}"></script>
 {% endblock %}
 
@@ -101,6 +101,6 @@
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+</div><!-- /.modal #task-modal -->
 {% include 'task_panel.html' with div_id='panel-template' only %}
 {% endblock %}
