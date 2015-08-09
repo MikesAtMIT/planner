@@ -1,5 +1,14 @@
 $(document).ready(function(){
 
+  // scroll to today on page load
+  function jump_to_row(row){
+    var nav_height = $('.navbar').height();
+    var thead_height = $('thead').height();
+    var target = row.offset().top;
+    $('body').scrollTop(target - nav_height - thead_height);
+  }
+  jump_to_row($('.today'));
+
   $('table').on('click', '.task-toggle', function(){
     var $panel = $(this).parents('.task-panel');
     var task_id = $panel.data('id');
@@ -128,3 +137,4 @@ $(document).ready(function(){
     });
   });
 });
+

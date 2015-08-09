@@ -35,11 +35,11 @@ th.date{
 th.column,td.column{
   min-width: 150px;
 }
-tr.weekend{
+tr.weekend th.date, tr.weekend td{
   background-color: #eee;
 }
-tr.weekend th.date{
-  background-color: #eee;
+tr.today th.date, tr.today td{
+  background-color: #d9edf7;
 }
 
 /* task panel styling */

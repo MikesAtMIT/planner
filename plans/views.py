@@ -48,13 +48,15 @@ def calendar(request, d1=None, d2=None, project=None):
         }
     ]
     '''
-
+    today = date.today()
     data = []
     for d in dates:
         datum = {
             'date': d,
             'tasks': [{ 'experiment_id': e.id, 'task_list': []} for e in experiment_list],
         }
+        if d == today:
+            datum['today'] = True
         data.append(datum)
     tasks = Task.objects.exclude(status='D').filter(date__in=dates).filter(experiment__in=experiment_list)
     for task in tasks:
