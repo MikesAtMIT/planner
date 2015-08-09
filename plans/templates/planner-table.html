@@ -17,13 +17,13 @@
     <table class="table table-bordered table-condensed">
       <thead>
         <tr>
-          <th class="date">&nbsp;</th>
-          {% for experiment in experiments %}
-            <th class="column" data-experiment-id="{{ experiment.id }}">
-              <div class="experiment-project">{{ experiment.project.name }}</div>
-              <div class="experiment-name">{{ experiment.name }}</div>
-            </th>
+          <th class="date">
+            <button type="button" class="btn btn-default btn-sm" id="new-experiment">Add Experiment</button>
+          </th>
+          {% for e in experiments %}
+            {% include 'experiment-header.html' with experiment_id=e.id project_id=e.project.id project_name=e.project.name experiment_name=e.name experiment_objective=e.objective experiment_notes=e.notes only %}
           {% endfor %}
+          {% include 'experiment-header.html' with th_id='header-template' only %}
         </tr>
       </thead>
       <tbody>
@@ -102,5 +102,54 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal #task-modal -->
+<div class="modal" id="experiment-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" id="experiment-form">
+          {% csrf_token %}
+          <input type="hidden" id="experiment-id" name="experiment_id" />
+          <div class="form-group">
+            <label for="experiment-project" class="col-sm-3 control-label">Project</label>
+            <div class="col-sm-9">
+              <select class="form-control" id="experiment-project" name="experiment_project">
+                <option>Choose a project:</option>
+                {% for project in projects %}
+                  <option value="{{ project.id }}">{{ project.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="experiment-name" class="col-sm-3 control-label">Name</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="experiment-name" name="experiment_name" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="experiment-objective" class="col-sm-3 control-label">Objective</label>
+            <div class="col-sm-9">
+              <textarea class="form-control" id="experiment-objective" name="experiment_objective"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="experiment-notes" class="col-sm-3 control-label">Notes</label>
+            <div class="col-sm-9">
+              <textarea class="form-control" id="experiment-notes" name="experiment_notes"></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="save-experiment">Save</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal #experiment-modal -->
 {% include 'task_panel.html' with div_id='panel-template' only %}
 {% endblock %}

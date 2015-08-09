@@ -149,3 +149,24 @@ def update_task(request):
             'status': task.status,
         }
         return HttpResponse(json.dumps(result))
+
+
+def save_new_experiment(request):
+    # ajax endpoint for saving a new experiment
+    if request.method == 'POST':
+        project = request.POST.get('experiment_project')
+        name = request.POST.get('experiment_name')
+        objective = request.POST.get('experiment_objective')
+        notes = request.POST.get('experiment_notes')
+        experiment = Experiment(name=name, objective=objective, notes=notes, project_id=project)
+        experiment.save()
+        result = {
+            'id': experiment.id,
+            'name': experiment.name,
+            'project_id': experiment.project.id,
+            'project': experiment.project.name,
+            'objective': experiment.objective,
+            'notes': experiment.notes,
+            'status': experiment.status,
+        }
+        return HttpResponse(json.dumps(result))
