@@ -198,19 +198,17 @@ $(document).ready(function(){
         $('#experiment-modal').modal('hide');
       }
     } else {
-      // var url = '/update-task/';
-      // var success = function(data){
-      //   var $panel = $('.panel[data-id="' + data.id + '"]');
-      //   $panel.find('.task-name').attr('data-content', data.notes).popover();
-      //   $panel.find('.task-name').html(data.name);
-      //   var old_date = $panel.parent().data('date');
-      //   var old_experiment = $panel.parent().data('experiment-id');
-      //   if (old_date != data.date || old_experiment != data.experiment) {
-      //     var $target_td = $('td[data-experiment-id="' + data.experiment + '"][data-date="' + data.date + '"]');
-      //     $panel.insertBefore($target_td.children('button'));
-      //   }
-      //   $('#task-modal').modal('hide');
-      // }
+      var url = '/update-experiment/';
+      var success = function(data){
+        var $header = $('th.column[data-experiment-id="' + data.id + '"]');
+        $header.children('.experiment-project').attr('data-id', data.project_id).html(data.project_name);
+        $header.children('.experiment-name').html(data.name);
+        $header.children('.experiment-objective').html(data.objective);
+        $header.children('.experiment-notes').html(data.notes);
+        // update status
+        // update ordering?
+        $('#experiment-modal').modal('hide');
+      }
     }
 
     $.ajax({
