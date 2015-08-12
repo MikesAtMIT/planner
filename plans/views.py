@@ -198,3 +198,21 @@ def update_experiment(request):
             'status': experiment.status,
         }
         return HttpResponse(json.dumps(result))
+
+
+def toggle_experiment(request):
+    # ajax endpoint for completing an experiment
+    if request.method == 'POST':
+        experiment_id = request.POST.get('experiment_id')
+        action = request.POST.get('action')
+        experiment = Experiment.objects.get(pk=experiment_id)
+        if action == experiment.status:
+            experiment.status = 'O'
+        else:
+            experiment.status = action
+        experiment.save()
+        result = {
+            'experiment_id': experiment.id,
+            'status': experiment.status,
+        }
+        return HttpResponse(json.dumps(result))

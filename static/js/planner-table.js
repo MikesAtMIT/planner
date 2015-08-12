@@ -107,6 +107,7 @@ $(document).ready(function(){
       var url = '/update-task/';
       var success = function(data){
         var $panel = $('.panel[data-id="' + data.id + '"]');
+        // upate panel status? not necessary right not bc status isn't edited via modal
         $panel.find('.task-name').attr('data-content', data.notes).popover();
         $panel.find('.task-name').html(data.name);
         var old_date = $panel.parent().data('date');
@@ -205,7 +206,7 @@ $(document).ready(function(){
         $header.children('.experiment-name').html(data.name);
         $header.children('.experiment-objective').html(data.objective);
         $header.children('.experiment-notes').html(data.notes);
-        // update status
+        // update status - not necessary now bc status is not edited via modal
         // update ordering?
         $('#experiment-modal').modal('hide');
       }
@@ -219,5 +220,39 @@ $(document).ready(function(){
       success: success,
     });
   });
+  
+  $('table').on('click', '.experiment-toggle', function(){
+    var $header = $(this).parents('th.column');
+    var experiment_id = $header.attr('data-experiment-id');
+    var csrftoken = $.cookie('csrftoken');
+    var action = $(this).attr('data-action');
+
+    data = {
+      csrfmiddlewaretoken: csrftoken,
+      experiment_id: experiment_id,
+      action: action,
+    }
+    $.ajax({
+      type: 'POST',
+      url: '/toggle-experiment/',
+      data: data,
+      dataType: 'json',
+      success: function(data){
+        $header.removeClass('success warning danger');
+        switch (data.status) {
+          case 'O':
+            $header.addClass('warning');
+            break;
+          case 'C':
+            $header.addClass('success');
+            break;
+          case 'A':
+            $header.addClass('danger');
+            break;
+        }
+      },
+    });
+  });
+
 
 });
