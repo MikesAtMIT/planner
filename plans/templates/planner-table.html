@@ -28,7 +28,9 @@
       </thead>
       <tbody>
         {% for datum in data %}
-          {% if datum.date.weekday == 5 or datum.date.weekday == 6 %}
+          {% if datum.today %}
+          <tr class="today">
+          {% elif datum.date.weekday == 5 or datum.date.weekday == 6 %}
           <tr class="weekend">
           {% else %}
           <tr>
