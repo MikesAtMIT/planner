@@ -1,0 +1,20 @@
+<th class="column {{ experiment_status }}" data-experiment-id="{{ experiment_id }}" id="{{ th_id }}">
+  <div class="experiment-project" data-id="{{ project_id }}">{{ project_name }}</div>
+  <div class="experiment-name">{{ experiment_name }}</div>
+  <div class="experiment-objective">{{ experiment_objective }}</div>
+  <div class="experiment-notes">{{ experiment_notes }}</div>
+  <div class="experiment-action">
+    <div class="col-xs-3">
+      <span class="glyphicon glyphicon-ok experiment-toggle" data-action="C" aria-hidden="true"></span>
+    </div>
+    <div class="col-xs-3">
+      <span class="glyphicon glyphicon-remove experiment-toggle" data-action="A" aria-hidden="true"></span>
+    </div>
+    <div class="col-xs-3">
+      <span class="glyphicon glyphicon-pencil experiment-edit" aria-hidden="true"></span>
+    </div>
+    <div class="col-xs-3">
+      <span class="glyphicon glyphicon-trash experiment-delete" aria-hidden="true"></span>
+    </div>
+  </div>
+</th>

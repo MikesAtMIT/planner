@@ -10,3 +10,12 @@ def panel_status(value):
         'A': 'panel-danger',
     }
     return d[value]
+
+@register.filter
+def experiment_status(value):
+    d = {
+        'O': 'warning',
+        'C': 'success',
+        'A': 'danger',
+    }
+    return d[value]

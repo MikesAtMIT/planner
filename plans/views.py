@@ -151,3 +151,84 @@ def update_task(request):
             'status': task.status,
         }
         return HttpResponse(json.dumps(result))
+
+
+def save_new_experiment(request):
+    # ajax endpoint for saving a new experiment
+    if request.method == 'POST':
+        project = request.POST.get('experiment_project')
+        name = request.POST.get('experiment_name')
+        objective = request.POST.get('experiment_objective')
+        notes = request.POST.get('experiment_notes')
+        experiment = Experiment(name=name, objective=objective, notes=notes, project_id=project)
+        experiment.save()
+        result = {
+            'id': experiment.id,
+            'name': experiment.name,
+            'project_id': experiment.project.id,
+            'project': experiment.project.name,
+            'objective': experiment.objective,
+            'notes': experiment.notes,
+            'status': experiment.status,
+        }
+        return HttpResponse(json.dumps(result))
+
+
+def update_experiment(request):
+    # ajax endpoint for updating an experiment
+    if request.method == 'POST':
+        experiment_id = request.POST.get('experiment_id')
+        project = request.POST.get('experiment_project')
+        name = request.POST.get('experiment_name')
+        objective = request.POST.get('experiment_objective')
+        notes = request.POST.get('experiment_notes')
+
+        experiment = Experiment.objects.get(pk=experiment_id)
+        experiment.name = name
+        experiment.project_id = project
+        experiment.objective = objective
+        experiment.notes = notes
+        experiment.save()
+
+        result = {
+            'id': experiment.id,
+            'name': experiment.name,
+            'project_id': experiment.project_id,
+            'project_name': experiment.project.name,
+            'objective': experiment.objective,
+            'notes': experiment.notes,
+            'status': experiment.status,
+        }
+        return HttpResponse(json.dumps(result))
+
+
+def toggle_experiment(request):
+    # ajax endpoint for completing an experiment
+    if request.method == 'POST':
+        experiment_id = request.POST.get('experiment_id')
+        action = request.POST.get('action')
+        experiment = Experiment.objects.get(pk=experiment_id)
+        if action == experiment.status:
+            experiment.status = 'O'
+        else:
+            experiment.status = action
+        experiment.save()
+        result = {
+            'experiment_id': experiment.id,
+            'status': experiment.status,
+        }
+        return HttpResponse(json.dumps(result))
+
+
+def delete_experiment(request):
+    # ajax endpoint for deleting an experiment
+    if request.method == 'POST':
+        experiment_id = request.POST.get('experiment_id')
+        experiment = Experiment.objects.get(pk=experiment_id)
+        experiment.status = 'D'
+        experiment.save()
+        result = {
+            'experiment_id': experiment.id,
+            'status': experiment.status,
+        }
+        return HttpResponse(json.dumps(result))
