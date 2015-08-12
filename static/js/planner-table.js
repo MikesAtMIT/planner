@@ -254,5 +254,26 @@ $(document).ready(function(){
     });
   });
 
+  $('table').on('click', '.experiment-delete', function(){
+    var $header = $(this).parents('th.column');
+    var experiment_id = $header.attr('data-experiment-id');
+    var csrftoken = $.cookie('csrftoken');
+
+    data = {
+      csrfmiddlewaretoken: csrftoken,
+      experiment_id: experiment_id,
+    }
+    $.ajax({
+      type: 'POST',
+      url: '/delete-experiment/',
+      data: data,
+      dataType: 'json',
+      success: function(data){
+        if (data.status == 'D'){
+          $('th[data-experiment-id="' + data.experiment_id + '"], td[data-experiment-id="' + data.experiment_id + '"]').remove();
+        }
+      },
+    });
+  });
 
 });

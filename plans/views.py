@@ -216,3 +216,17 @@ def toggle_experiment(request):
             'status': experiment.status,
         }
         return HttpResponse(json.dumps(result))
+
+
+def delete_experiment(request):
+    # ajax endpoint for deleting an experiment
+    if request.method == 'POST':
+        experiment_id = request.POST.get('experiment_id')
+        experiment = Experiment.objects.get(pk=experiment_id)
+        experiment.status = 'D'
+        experiment.save()
+        result = {
+            'experiment_id': experiment.id,
+            'status': experiment.status,
+        }
+        return HttpResponse(json.dumps(result))
