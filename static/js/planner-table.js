@@ -94,6 +94,7 @@ $(document).ready(function(){
     $('#task-notes').val('');
     $('#task-modal .modal-title').html('New Task');
     $('#task-modal').modal('show');
+    $('#task-name').focus();
   })
 
   $('#save-task').click(function(){
