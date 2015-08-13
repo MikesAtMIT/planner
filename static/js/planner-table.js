@@ -11,9 +11,9 @@ $(document).ready(function(){
 
   $('table').on('click', '.task-toggle', function(){
     var $panel = $(this).parents('.task-panel');
-    var task_id = $panel.data('id');
+    var task_id = $panel.attr('data-id');
     var csrftoken = $.cookie('csrftoken');
-    var action = $(this).data('action');
+    var action = $(this).attr('data-action');
 
     data = {
       csrfmiddlewaretoken: csrftoken,
@@ -44,7 +44,7 @@ $(document).ready(function(){
 
   $('table').on('click', '.task-delete', function(){
     var $panel = $(this).parents('.task-panel');
-    var task_id = $panel.data('id');
+    var task_id = $panel.attr('data-id');
     var csrftoken = $.cookie('csrftoken');
 
     data = {
@@ -68,11 +68,11 @@ $(document).ready(function(){
 
   $('table').on('click', '.task-edit', function(){
     var $panel = $(this).parents('.task-panel');
-    var task_id = $panel.data('id');
-    var date = $panel.parent().data('date');
-    var experiment = $panel.parent().data('experiment-id');
+    var task_id = $panel.attr('data-id');
+    var date = $panel.parent().attr('data-date');
+    var experiment = $panel.parent().attr('data-experiment-id');
     var name = $panel.find('.task-name').text();
-    var notes = $panel.find('.task-name').data('content');
+    var notes = $panel.find('.task-name').attr('data-content');
 
     $('#task-id').val(task_id);
     $('#task-experiment').val(experiment);
@@ -84,8 +84,8 @@ $(document).ready(function(){
   });
 
   $('table').on('click', '.new-task', function(){
-    var date = $(this).parent().data('date');
-    var experiment = $(this).parent().data('experiment-id');
+    var date = $(this).parent().attr('data-date');
+    var experiment = $(this).parent().attr('data-experiment-id');
 
     $('#task-id').val('');
     $('#task-experiment').val(experiment);
@@ -120,8 +120,8 @@ $(document).ready(function(){
         // upate panel status? not necessary right not bc status isn't edited via modal
         $panel.find('.task-name').attr('data-content', data.notes).popover();
         $panel.find('.task-name').html(data.name);
-        var old_date = $panel.parent().data('date');
-        var old_experiment = $panel.parent().data('experiment-id');
+        var old_date = $panel.parent().attr('data-date');
+        var old_experiment = $panel.parent().attr('data-experiment-id');
         if (old_date != data.date || old_experiment != data.experiment) {
           var $target_td = $('td[data-experiment-id="' + data.experiment + '"][data-date="' + data.date + '"]');
           $panel.insertBefore($target_td.children('button'));
