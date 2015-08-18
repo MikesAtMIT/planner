@@ -29,7 +29,7 @@ def calendar(request, d1=None, d2=None, project=None):
     else:
         projects = Project.objects.filter(pk=project)
 
-    experiments = Experiment.objects.exclude(status='D').filter(project__in=projects)
+    experiments = Experiment.objects.exclude(status='D').filter(project__in=projects).order_by('-status','-order')
 
     experiment_list = [e for e in experiments]
 
