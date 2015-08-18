@@ -160,7 +160,7 @@ def save_new_experiment(request):
         name = request.POST.get('experiment_name')
         objective = request.POST.get('experiment_objective')
         notes = request.POST.get('experiment_notes')
-        experiment = Experiment(name=name, objective=objective, notes=notes, project_id=project)
+        experiment = Experiment.objects.create_experiment(name=name, objective=objective, notes=notes, project_id=project)
         experiment.save()
         result = {
             'id': experiment.id,
@@ -170,6 +170,7 @@ def save_new_experiment(request):
             'objective': experiment.objective,
             'notes': experiment.notes,
             'status': experiment.status,
+            'order': experiment.order,
         }
         return HttpResponse(json.dumps(result))
 
@@ -198,6 +199,7 @@ def update_experiment(request):
             'objective': experiment.objective,
             'notes': experiment.notes,
             'status': experiment.status,
+            'order': experiment.order,
         }
         return HttpResponse(json.dumps(result))
 
