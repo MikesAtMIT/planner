@@ -234,3 +234,14 @@ def delete_experiment(request):
             'status': experiment.status,
         }
         return HttpResponse(json.dumps(result))
+
+
+def update_experiment_order(request):
+    # ajax endpoint for updating the sort order of experiments
+    if request.method == 'POST':
+        experiment_id = request.POST.get('experiment_id')
+        new_order = int(request.POST.get('new_order'))
+        experiment = Experiment.objects.get(pk=experiment_id)
+        list_of_updated_experiments = experiment.update_order(new_order)
+        result = [{ 'experiment_id': e.id, 'order': e.order } for e in list_of_updated_experiments]
+        return HttpResponse(json.dumps(result))

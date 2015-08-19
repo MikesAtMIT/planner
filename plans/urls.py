@@ -17,4 +17,5 @@ urlpatterns = [
     url(r'^update-experiment/$', views.update_experiment),
     url(r'^toggle-experiment/$', views.toggle_experiment),
     url(r'^delete-experiment/$', views.delete_experiment),
+    url(r'^update-experiment-order/$', views.update_experiment_order),
 ]
