@@ -175,9 +175,9 @@ $(document).ready(function(){
       var success = function(data){
         // make header
         $new_header = $('#header-template').clone().removeAttr('id');
-        $new_header.prepend('ORDER = ' + data.order);
-        $new_header.addClass('warning');
+        $new_header.removeClass().addClass('column warning');   // again, weird jquery hack for matching classes
         $new_header.attr('data-experiment-id', data.id);
+        $new_header.attr('data-order', data.order);
         $new_header.find('.experiment-project').attr('data-id', data.project_id).html(data.project);
         $new_header.find('.experiment-name').html(data.name);
         $new_header.find('.experiment-objective').html(data.objective);
