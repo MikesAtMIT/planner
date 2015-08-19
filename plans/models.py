@@ -56,14 +56,18 @@ class Experiment(models.Model):
 
         up = new_order > old_order      # whether you're going up or down in order
         next_order = old_order
+        list_of_updated_experiments = []
 
         while next_order != new_order:
             next_order = next_order + 1 if up else next_order - 1
             next_experiment = type(self).objects.get(order=next_order)
             next_experiment.order = next_order - 1 if up else next_order + 1
             next_experiment.save()
+            list_of_updated_experiments.append(next_experiment)
         self.order = new_order
         self.save()
+        list_of_updated_experiments.append(self)
+        return list_of_updated_experiments
     
     def __unicode__(self):
         return self.name
