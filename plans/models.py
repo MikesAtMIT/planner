@@ -45,7 +45,7 @@ class Experiment(models.Model):
         default = ONGOING,
         )
     project = models.ForeignKey(Project)
-    order = models.PositiveIntegerField(unique=True)
+    order = models.PositiveIntegerField(unique=True,blank=True,default=0)       # default value is replaced on creation
 
     objects = ExperimentManager()
 
