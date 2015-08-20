@@ -7,7 +7,9 @@ $(document).ready(function(){
     var target = row.offset().top;
     $('body').scrollTop(target - nav_height - thead_height);
   }
-  jump_to_row($('.today'));
+  if ($('.today').length == 1){
+    jump_to_row($('.today')); 
+  }
 
   $('table').on('click', '.task-toggle', function(){
     var $panel = $(this).parents('.task-panel');
