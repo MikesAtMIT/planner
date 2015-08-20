@@ -97,6 +97,11 @@ $(document).ready(function(){
     $('#task-name').focus();
   })
 
+  $('#task-form').on('submit', function(e){
+    e.preventDefault();
+    $('#save-task').trigger('click');
+  });
+
   $('#save-task').click(function(){
     var $form = $('#task-form');
     var data = $form.serialize();
@@ -164,6 +169,11 @@ $(document).ready(function(){
     $('#experiment-notes').val('');
     $('#experiment-modal .modal-title').html('New Experiment');
     $('#experiment-modal').modal('show');
+  })
+
+  $('#experiment-form').on('submit', function(e){
+    e.preventDefault();
+    $('#save-experiment').trigger('click');
   })
 
   $('#save-experiment').click(function(){
