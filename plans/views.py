@@ -29,9 +29,24 @@ def calendar(request, d1=None, d2=None, project=None):
     else:
         projects = Project.objects.filter(pk=project)
 
-    experiments = Experiment.objects.exclude(status='D').filter(project__in=projects)
+    experiments = Experiment.objects.exclude(status='D').filter(project__in=projects).order_by('-status','-order')
 
-    experiment_list = [e for e in experiments]
+    # Filter the size of the Experiment list
+    # If a specific Project is selected, load all Experiments
+    # If no Project is selected, display all Ongoing Experiments,
+    # and only Completed and Abandoned experiments that have tasks within the date range
+    if project is None:
+        experiment_list = []
+        for e in experiments:
+            if e.status == 'O':
+                experiment_list.append(e)
+            else:
+                for task in e.task_set.all():
+                    if task.date in dates:
+                        experiment_list.append(e)
+                        break
+    else:
+        experiment_list = [e for e in experiments]
 
     '''
     structure of the data variable:
@@ -160,7 +175,7 @@ def save_new_experiment(request):
         name = request.POST.get('experiment_name')
         objective = request.POST.get('experiment_objective')
         notes = request.POST.get('experiment_notes')
-        experiment = Experiment(name=name, objective=objective, notes=notes, project_id=project)
+        experiment = Experiment.objects.create_experiment(name=name, objective=objective, notes=notes, project_id=project)
         experiment.save()
         result = {
             'id': experiment.id,
@@ -170,6 +185,7 @@ def save_new_experiment(request):
             'objective': experiment.objective,
             'notes': experiment.notes,
             'status': experiment.status,
+            'order': experiment.order,
         }
         return HttpResponse(json.dumps(result))
 
@@ -198,6 +214,7 @@ def update_experiment(request):
             'objective': experiment.objective,
             'notes': experiment.notes,
             'status': experiment.status,
+            'order': experiment.order,
         }
         return HttpResponse(json.dumps(result))
 
@@ -231,4 +248,15 @@ def delete_experiment(request):
             'experiment_id': experiment.id,
             'status': experiment.status,
         }
+        return HttpResponse(json.dumps(result))
+
+
+def update_experiment_order(request):
+    # ajax endpoint for updating the sort order of experiments
+    if request.method == 'POST':
+        experiment_id = request.POST.get('experiment_id')
+        new_order = int(request.POST.get('new_order'))
+        experiment = Experiment.objects.get(pk=experiment_id)
+        list_of_updated_experiments = experiment.update_order(new_order)
+        result = [{ 'experiment_id': e.id, 'order': e.order } for e in list_of_updated_experiments]
         return HttpResponse(json.dumps(result))

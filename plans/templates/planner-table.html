@@ -21,7 +21,7 @@
             <button type="button" class="btn btn-default btn-sm" id="new-experiment">Add Experiment</button>
           </th>
           {% for e in experiments %}
-            {% include 'experiment-header.html' with experiment_id=e.id project_id=e.project.id project_name=e.project.name experiment_name=e.name experiment_objective=e.objective experiment_notes=e.notes experiment_status=e.status|experiment_status only %}
+            {% include 'experiment-header.html' with experiment_id=e.id project_id=e.project.id project_name=e.project.name experiment_name=e.name experiment_objective=e.objective experiment_notes=e.notes experiment_status=e.status|experiment_status experiment_order=e.order only %}
           {% endfor %}
           {% include 'experiment-header.html' with th_id='header-template' only %}
         </tr>

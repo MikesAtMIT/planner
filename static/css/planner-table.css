@@ -41,8 +41,9 @@ tr.weekend th.date, tr.weekend td{
 tr.today th.date, tr.today td{
   background-color: #d9edf7;
 }
-.experiment-action > div{
-  text-align: center;
+
+/* header panel appearance */
+.experiment-action > div, .experiment-order > div{
   padding: 5px 0px;
 }
 .experiment-action span{
@@ -54,6 +55,26 @@ tr.today th.date, tr.today td{
 }
 .experiment-objective, .experiment-notes{
   display: none;
+}
+th.column{
+  padding-top: 22px !important;
+  text-align: center;
+}
+.experiment-order{
+  position: absolute;
+  top: 2px;
+  width: calc(100% - 10px);   /* to compensate for th padding */
+}
+.update-order{
+  opacity: 0.5;
+  display: none;
+}
+th.column:hover .update-order{
+  display: block;
+}
+.update-order:hover{
+  cursor: pointer;
+  opacity: 1;
 }
 
 /* task panel styling */

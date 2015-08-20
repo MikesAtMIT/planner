@@ -175,8 +175,9 @@ $(document).ready(function(){
       var success = function(data){
         // make header
         $new_header = $('#header-template').clone().removeAttr('id');
-        $new_header.addClass('warning');
+        $new_header.removeClass().addClass('column warning');   // again, weird jquery hack for matching classes
         $new_header.attr('data-experiment-id', data.id);
+        $new_header.attr('data-order', data.order);
         $new_header.find('.experiment-project').attr('data-id', data.project_id).html(data.project);
         $new_header.find('.experiment-name').html(data.name);
         $new_header.find('.experiment-objective').html(data.objective);
@@ -285,6 +286,59 @@ $(document).ready(function(){
         }
       },
     });
+  });
+
+  $('table').on('click', '.update-order', function(){
+    var $header = $(this).parents('th.column');
+    var experiment_id = $header.attr('data-experiment-id');
+    var csrftoken = $.cookie('csrftoken');
+
+    data = {
+      csrfmiddlewaretoken: csrftoken,
+      experiment_id: experiment_id,
+    }
+    
+    var up = $(this).attr('data-direction') == 'up';
+    if (up) {
+      $adjacent = $header.prev();
+    } else {
+      $adjacent = $header.next();
+    }
+
+    if ($adjacent.hasClass($header.attr('class'))){   // this is a total hack of how jquery handles hasClass
+      data.new_order = $adjacent.attr('data-order');
+    } else {
+      return;
+    }
+    
+    $.ajax({
+      type: 'POST',
+      url: '/update-experiment-order/',
+      data: data,
+      dataType: 'json',
+      success: function(data){
+        // returns list of experiments with IDs and their updated order values
+
+        // first, update the data-order values of all affected experiments
+        for (var i in data) {
+          var experiment_id = data[i].experiment_id;
+          var order = data[i].order;
+          $('th.column[data-experiment-id="' + experiment_id + '"]').attr('data-order', order);
+        }
+
+        // then, swap the two relevant columns
+        if (up) {
+          $('.column[data-experiment-id="' + experiment_id + '"]').each(function(){
+            $(this).insertBefore($(this).prev());
+          });
+        } else {
+          $('.column[data-experiment-id="' + experiment_id + '"]').each(function(){
+            $(this).insertAfter($(this).next());
+          });
+        }
+      },
+    });
+
   });
 
 });
