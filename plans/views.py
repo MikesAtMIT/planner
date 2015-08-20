@@ -31,7 +31,22 @@ def calendar(request, d1=None, d2=None, project=None):
 
     experiments = Experiment.objects.exclude(status='D').filter(project__in=projects).order_by('-status','-order')
 
-    experiment_list = [e for e in experiments]
+    # Filter the size of the Experiment list
+    # If a specific Project is selected, load all Experiments
+    # If no Project is selected, display all Ongoing Experiments,
+    # and only Completed and Abandoned experiments that have tasks within the date range
+    if project is None:
+        experiment_list = []
+        for e in experiments:
+            if e.status == 'O':
+                experiment_list.append(e)
+            else:
+                for task in e.task_set.all():
+                    if task.date in dates:
+                        experiment_list.append(e)
+                        break
+    else:
+        experiment_list = [e for e in experiments]
 
     '''
     structure of the data variable:
