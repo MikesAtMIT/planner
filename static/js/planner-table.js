@@ -78,7 +78,7 @@ $(document).ready(function(){
 
     $('#task-id').val(task_id);
     $('#task-experiment').val(experiment);
-    $('#task-date').val(date);
+    $('#task-date-datepicker').datepicker('setDate', date);
     $('#task-name').val(name);
     $('#task-notes').val(notes);
     $('#task-modal .modal-title').html('Edit Task');
@@ -91,13 +91,23 @@ $(document).ready(function(){
 
     $('#task-id').val('');
     $('#task-experiment').val(experiment);
-    $('#task-date').val(date);
+    $('#task-date-datepicker').datepicker('setDate', date);
     $('#task-name').val('');
     $('#task-notes').val('');
     $('#task-modal .modal-title').html('New Task');
     $('#task-modal').modal('show');
     $('#task-name').focus();
   })
+
+  $('#task-date-datepicker').datepicker({
+    format: "yyyy-mm-dd",
+    todayBtn: true,
+    autoclose: true,
+    todayHighlight: true,
+  }).on("changeDate", function() {
+    $('#task-date').val($('#task-date-datepicker').datepicker('getFormattedDate'));
+  });
+  $('#task-modal').modal('show').modal('hide'); // making the datepicker inside a hidden modal freezes the page
 
   $('#task-form').on('submit', function(e){
     e.preventDefault();
