@@ -362,5 +362,35 @@ $(document).ready(function(){
     });
 
   });
+  
+  // Enable dragging and dropping of task-panels to change experiment and/or date
+  $('.task-panel').draggable({
+    scroll: true,
+    containment: 'tbody',
+    cancel: '.task-action',
+    revert: 'invalid',
+    helper: 'original',
+    opacity: 0.8,
+    stack: '.task-panel',
+  });
+  $('td:not(.date)').droppable({
+    hoverClass: 'droppable-hover',
+    drop: function( event, ui ){
+      // align the panel inside the new td
+      ui.draggable
+        .insertBefore($(this).children('button'))   // insert into the td
+        .css({'top': '', 'left': ''});    // need to reset the position
+      
+      // update date and project
+      // need to use hidden modal form for the csrf token validation
+      $('#task-id').val(ui.draggable.attr('data-id'));
+      $('#task-experiment').val($(this).attr('data-experiment-id'));
+      $('#task-date-datepicker').datepicker('setDate', $(this).attr('data-date'));
+      $('#task-name').val(ui.draggable.find('.task-name').text());
+      $('#task-notes').val(ui.draggable.find('.task-name').attr('data-content'));
+      $('#task-modal .modal-title').html('Edit Task');
+      $('#save-task').trigger('click');
+    }
+  });
 
 });
