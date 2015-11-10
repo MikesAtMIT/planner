@@ -56,3 +56,6 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# MySQL server info
+dbinfo.py
