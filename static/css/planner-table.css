@@ -10,6 +10,10 @@
 }
 th.date{
   position: -webkit-sticky;
+  position: -moz-sticky;
+  position: -ms-sticky;
+  position: -o-sticky;
+  position: sticky;
   top: 50px;
   left: 0px;
   background-color: white;
@@ -18,6 +22,10 @@ th.date{
 }
 thead th{
   position: -webkit-sticky;
+  position: -moz-sticky;
+  position: -ms-sticky;
+  position: -o-sticky;
+  position: sticky;
   top: 50px;
   left: 0px;
   background-color: white;
