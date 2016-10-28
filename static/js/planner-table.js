@@ -128,6 +128,7 @@ $(document).ready(function(){
         $new_panel.find('.task-name').html(data.name);
         var $target_td = $('td[data-experiment-id="' + data.experiment + '"][data-date="' + data.date + '"]');
         $new_panel.insertBefore($target_td.children('button'));
+        makePanelDraggable($new_panel);
         $('#task-modal').modal('hide');
       }
     } else {
@@ -222,6 +223,7 @@ $(document).ready(function(){
           var date = $(this).attr('data-date');
           var $new_td = $td.clone().attr('data-date', date);
           $(this).after($new_td);
+          makeTdDroppable($new_td);
         });
 
         // update dropdown in new task modal
@@ -362,5 +364,46 @@ $(document).ready(function(){
     });
 
   });
+  
+  // Enable dragging and dropping of task-panels to change experiment and/or date
+  function makePanelDraggable( $panel ){
+    $panel.draggable({
+      scroll: true,
+      containment: 'tbody',
+      cancel: '.task-action',
+      revert: 'invalid',
+      helper: 'original',
+      opacity: 0.8,
+      stack: '.task-panel',
+    });
+  }
+  $('.task-panel').each(function(){
+    makePanelDraggable($(this));
+  });
+
+  function makeTdDroppable( $td ){
+    $td.droppable({
+      hoverClass: 'droppable-hover',
+      drop: function( event, ui ){
+        // align the panel inside the new td
+        ui.draggable
+          .insertBefore($(this).children('button'))   // insert into the td
+          .css({'top': '', 'left': ''});    // need to reset the position
+        
+        // update date and project
+        // need to use hidden modal form for the csrf token validation
+        $('#task-id').val(ui.draggable.attr('data-id'));
+        $('#task-experiment').val($(this).attr('data-experiment-id'));
+        $('#task-date-datepicker').datepicker('setDate', $(this).attr('data-date'));
+        $('#task-name').val(ui.draggable.find('.task-name').text());
+        $('#task-notes').val(ui.draggable.find('.task-name').attr('data-content'));
+        $('#task-modal .modal-title').html('Edit Task');
+        $('#save-task').trigger('click');
+      }
+    });
+  }
+  $('td:not(.date)').each(function(){
+    makeTdDroppable($(this));
+  })
 
 });

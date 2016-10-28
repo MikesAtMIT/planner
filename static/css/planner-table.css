@@ -43,10 +43,10 @@ th.date{
 th.column,td.column{
   min-width: 150px;
 }
-tr.weekend th.date, tr.weekend td{
+tr.weekend th.date, tr.weekend{
   background-color: #eee;
 }
-tr.today th.date, tr.today td{
+tr.today th.date, tr.today{
   background-color: #d9edf7;
 }
 
@@ -88,6 +88,7 @@ th.column:hover .update-order{
 /* task panel styling */
 .panel{
   margin-bottom: 5px;
+  z-index: 1;   /* for draggable */
 }
 .task-name{
   margin-bottom: 10px;
@@ -119,4 +120,7 @@ th.column:hover .update-order{
 }
 #header-template{
   display: none;
+}
+.droppable-hover{
+  background-color: rgba(0,0,0,0.1) !important;
 }
