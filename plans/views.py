@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+
 from plans.models import *
+
 from datetime import date, timedelta
 import json
 
@@ -10,6 +13,7 @@ def index(request):
     return redirect(calendar)
 
 
+@login_required(login_url='/sign-in/')
 def calendar(request, d1=None, d2=None, project=None):
 
     if d1 is None and d2 is None:
