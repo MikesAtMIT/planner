@@ -22,4 +22,8 @@ $(document).ready(function(){
     window.location.href = url;
   });
 
+  $('#choose-filters').click(function(){
+    $('#filter-modal').modal('show');
+  })
+
 });

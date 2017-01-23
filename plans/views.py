@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 from plans.models import *
 
@@ -15,6 +16,8 @@ def index(request):
 
 @login_required(login_url='/sign-in/')
 def calendar(request, d1=None, d2=None, project=None):
+
+    users = request.GET.getlist('users')
 
     if d1 is None and d2 is None:
         # with no date range specified, default is today +/- 15 days
@@ -89,6 +92,7 @@ def calendar(request, d1=None, d2=None, project=None):
         'experiments': experiment_list,
         'data': data,
         'dates': dates,
+        'all_users': User.objects.all(),
     }
     return render(request, 'planner-table.html', context)
 

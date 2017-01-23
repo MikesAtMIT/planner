@@ -126,7 +126,7 @@ TEMPLATES = [
                 # 'django.template.context_processors.static',
                 # 'django.template.context_processors.tz',
                 # 'django.contrib.messages.context_processors.messages',
-                'planner.custom_context_processors.projects',
+                'planner.custom_context_processors.navbar_data',
             ]
         }
     }
