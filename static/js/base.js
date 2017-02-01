@@ -9,21 +9,6 @@ $(document).ready(function(){
     todayHighlight: true,
   });
 
-  $('#filter-dates').click(function(){
-    var start = $('#start-date').datepicker('getDate');
-    var end = $('#end-date').datepicker('getDate');
-    if (start == null || end == null) {
-      return;
-    }
-
-    // super hacky hard-coded way follows. think of a better way
-    var url = window.location.href;
-    url += moment(start).format('YYYYMMDD');
-    url += '-';
-    url += moment(end).format('YYYYMMDD');
-    window.location.href = url;
-  });
-
   $('#choose-filters').click(function(){
     $('#filter-modal').modal('show');
   });
@@ -46,5 +31,19 @@ $(document).ready(function(){
       }
     });
   }
-  
+
+  $('#filter-form').submit(function() {
+    var startDate = $('#start-date').datepicker('getDate');
+    var startDateString = startDate.getFullYear().toString() + '-' +
+                          (startDate.getMonth() + 1).toString() + '-' +
+                          startDate.getDate().toString();
+    $('#start-date-hidden').val(startDateString);
+
+    var endDate = $('#end-date').datepicker('getDate');
+    var endDateString = endDate.getFullYear().toString() + '-' +
+                          (endDate.getMonth() + 1).toString() + '-' +
+                          endDate.getDate().toString();
+    $('#end-date-hidden').val(endDateString);
+  });
+
 });

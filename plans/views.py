@@ -19,18 +19,19 @@ def calendar(request):
 
     users = request.GET.getlist('users')
     projects = request.GET.getlist('projects')
+    start_date_input = request.GET.get('start-date')
+    end_date_input = request.GET.get('end-date')
     
-    start_date = date.today() - timedelta(days=15)
-    end_date = date.today() + timedelta(days=15)
-
-    # if d1 is None and d2 is None:
-    #     # with no date range specified, default is today +/- 15 days
-    #     start_date = date.today() - timedelta(days=15)
-    #     end_date = date.today() + timedelta(days=15)
-    # else:
-    #     # use specified date range
-    #     start_date = date(int(d1[0:4]), int(d1[4:6]), int(d1[6:8]))
-    #     end_date = date(int(d2[0:4]), int(d2[4:6]), int(d2[6:8]))
+    if start_date_input is None and end_date_input is None:
+        # with no date range specified, default is today +/- 15 days
+        start_date = date.today() - timedelta(days=15)
+        end_date = date.today() + timedelta(days=15)
+    else:
+        # use specified date range
+        d1 = start_date_input.split('-')
+        d2 = end_date_input.split('-')
+        start_date = date(int(d1[0]), int(d1[1]), int(d1[2]))
+        end_date = date(int(d2[0]), int(d2[1]), int(d2[2]))
     
     time_diff = (end_date - start_date).days
     dates = [start_date + timedelta(days=x) for x in range(0, time_diff+1)]
