@@ -1,4 +1,6 @@
 $(document).ready(function(){
+
+  filterProjects();
   
   $('#start-date,#end-date').datepicker({
     format: "D, M d, yyyy",
@@ -24,6 +26,25 @@ $(document).ready(function(){
 
   $('#choose-filters').click(function(){
     $('#filter-modal').modal('show');
-  })
+  });
 
+  $('.user-checkbox').click(function(){
+    filterProjects();
+  });
+
+  function filterProjects() {
+    var users = {}
+    $('.user-checkbox').each(function(i) {
+      users[$(this).attr('data-id')] = $(this).is(':checked');
+    });
+    $('.project-checkbox').each(function(i) {
+      var contributor_id_list = $(this).attr('data-contributors').split(',');
+      if (contributor_id_list.some(function(contributor) { return users[contributor]; })) {
+        $(this).removeClass('hidden');
+      } else {
+        $(this).addClass('hidden').find('input').attr('checked', false);
+      }
+    });
+  }
+  
 });

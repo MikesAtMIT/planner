@@ -73,13 +73,13 @@
                 <h4 class="modal-title">Filter items to display</h4>
               </div>
               <div class="modal-body">
-                <div class="row" id="filter-form">
+                <div class="row">
                   <div class="form-group col-xs-3">
                     <label for="filter-users">Users</label>
                     {% for u in all_users %}
                       <div class="checkbox">
                         <label>
-                          <input type="checkbox" name="users" value="{{ u }}" 
+                          <input type="checkbox" class="user-checkbox" data-id="{{ u.id }}" 
                             {% if u == user %}
                               checked="checked"
                             {% endif %}
@@ -92,7 +92,7 @@
                   <div class="form-group col-xs-9">
                     <label for="filter-projects">Projects</label>
                     {% for project in all_projects %}
-                      <div class="checkbox">
+                      <div class="checkbox project-checkbox" data-contributors="{{ project.contributor_id_list }}">
                         <label>
                           <input type="checkbox" name="projects" value="{{ project.id }}" />
                           {{ project.name }}
@@ -100,6 +100,8 @@
                       </div>
                     {% endfor %}
                   </div>
+                </div>
+                <div class="row">
                   <div class="form-group col-xs-6">
                     <label for="start-date">Start Date</label>
                     <input type="text" class="form-control" id="start-date" placeholder="From" />

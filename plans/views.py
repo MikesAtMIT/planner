@@ -15,45 +15,41 @@ def index(request):
 
 
 @login_required(login_url='/sign-in/')
-def calendar(request, d1=None, d2=None, project=None):
+def calendar(request):
 
     users = request.GET.getlist('users')
+    projects = request.GET.getlist('projects')
+    
+    start_date = date.today() - timedelta(days=15)
+    end_date = date.today() + timedelta(days=15)
 
-    if d1 is None and d2 is None:
-        # with no date range specified, default is today +/- 15 days
-        start_date = date.today() - timedelta(days=15)
-        end_date = date.today() + timedelta(days=15)
-    else:
-        # use specified date range
-        start_date = date(int(d1[0:4]), int(d1[4:6]), int(d1[6:8]))
-        end_date = date(int(d2[0:4]), int(d2[4:6]), int(d2[6:8]))
+    # if d1 is None and d2 is None:
+    #     # with no date range specified, default is today +/- 15 days
+    #     start_date = date.today() - timedelta(days=15)
+    #     end_date = date.today() + timedelta(days=15)
+    # else:
+    #     # use specified date range
+    #     start_date = date(int(d1[0:4]), int(d1[4:6]), int(d1[6:8]))
+    #     end_date = date(int(d2[0:4]), int(d2[4:6]), int(d2[6:8]))
     
     time_diff = (end_date - start_date).days
     dates = [start_date + timedelta(days=x) for x in range(0, time_diff+1)]
 
-    if project is None:
-        projects = Project.objects.exclude(status='D')
+    if len(projects) == 0:
+        project_list = Project.objects.filter(contributors__user=request.user).exclude(status='D')
     else:
-        projects = Project.objects.filter(pk=project)
+        project_list = Project.objects.filter(pk__in=projects)
 
-    experiments = Experiment.objects.exclude(status='D').filter(project__in=projects).order_by('-status','-order')
-
-    # Filter the size of the Experiment list
-    # If a specific Project is selected, load all Experiments
-    # If no Project is selected, display all Ongoing Experiments,
-    # and only Completed and Abandoned experiments that have tasks within the date range
-    if project is None:
-        experiment_list = []
-        for e in experiments:
-            if e.status == 'O':
-                experiment_list.append(e)
-            else:
-                for task in e.task_set.all():
-                    if task.date in dates:
-                        experiment_list.append(e)
-                        break
-    else:
-        experiment_list = [e for e in experiments]
+    experiments = Experiment.objects.exclude(status='D').filter(project__in=project_list).order_by('-status','-order')
+    experiment_list = []
+    for e in experiments:
+        if e.status == 'O':
+            experiment_list.append(e)
+        else:
+            for task in e.task_set.all():
+                if task.date in dates:
+                    experiment_list.append(e)
+                    break
 
     '''
     structure of the data variable:

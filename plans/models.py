@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 COMPLETED = 'C'
@@ -13,7 +14,33 @@ STATUS_CHOICES = (
     )
 
 
-class Project(models.Model):
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+
+    @property
+    def full_name(self):
+        return self.user.first_name + ' ' + self.user.last_name
+
+    def __unicode__(self):
+        return self.full_name
+
+
+class ContributorBase(models.Model):
+    contributors = models.ManyToManyField(UserProfile)
+
+    @property
+    def contributor_list(self):
+        return ', '.join(map(unicode,self.contributors.all()))
+
+    @property
+    def contributor_id_list(self):
+        return ','.join(map(lambda x: str(x.user.id), self.contributors.all()))
+
+    class Meta:
+        abstract = True
+
+
+class Project(ContributorBase):
     name = models.CharField(max_length=200)
     objective = models.TextField()
     notes = models.TextField(blank=True)
@@ -35,7 +62,7 @@ class ExperimentManager(models.Manager):
         return experiment
 
 
-class Experiment(models.Model):
+class Experiment(ContributorBase):
     name = models.CharField(max_length=200)
     objective = models.TextField()
     notes = models.TextField(blank=True)
@@ -73,7 +100,7 @@ class Experiment(models.Model):
         return self.name
 
 
-class Task(models.Model):
+class Task(ContributorBase):
     name = models.CharField(max_length=200)
     # objective = models.TextField()
     notes = models.TextField(blank=True)
