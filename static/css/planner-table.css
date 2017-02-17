@@ -91,6 +91,12 @@ th.column:hover .update-order{
 .task-name:hover{
   cursor: default;
 }
+.task-action {
+  border-top: 1px dotted;
+  padding-top: 5px;
+  margin-bottom: -6px;
+}
+
 .task-action > div{
   text-align: center;
   padding: 0;
@@ -100,6 +106,26 @@ th.column:hover .update-order{
 }
 .task-action span:hover{
   cursor: pointer;
+  opacity: 1;
+}
+.task-contributors {
+  margin-top: -11px;
+  margin-bottom: 10px;
+  padding: 2px;
+  border-bottom: 1px dotted;
+  line-height: 14px;
+}
+.contributor-icon {
+  display: inline-block;
+  font-size: 0.6em;
+  border: 1px solid;
+  border-radius: 100px;
+  padding: 3px;
+  width: 22px;
+  background-color: white;
+  opacity: 0.3;
+}
+.contributor-icon-self {
   opacity: 1;
 }
 

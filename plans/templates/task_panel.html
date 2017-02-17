@@ -1,5 +1,10 @@
 <div class="panel {{ panel_status }} task-panel" data-id="{{ panel_id }}" id="{{ div_id }}">
   <div class="panel-heading">
+    <div class="task-contributors row">
+      {% for contributor in panel_contributors %}
+        <div class="contributor-icon {% if contributor.user == logged_in_user %}contributor-icon-self{% endif %}">{{ contributor.initials }}</div>
+      {% endfor %}
+    </div>
     <div class="task-name" tabindex="0" data-toggle="popover" data-placement="top" data-content="{{ panel_notes }}" data-trigger="focus">{{ panel_name }}</div>
     <div class="task-action row">
       <div class="col-xs-3">

@@ -18,6 +18,10 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
 
     @property
+    def initials(self):
+        return self.user.first_name[0].upper() + self.user.last_name[0].upper()
+
+    @property
     def full_name(self):
         return self.user.first_name + ' ' + self.user.last_name
 

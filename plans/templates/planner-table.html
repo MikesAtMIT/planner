@@ -41,7 +41,7 @@
             {% for task_list in datum.tasks %}
               <td class="column" data-experiment-id="{{ task_list.experiment_id }}" data-date="{{ datum.date|date:"Y-m-d" }}">
                 {% for task in task_list.task_list %}
-                  {% include 'task_panel.html' with panel_status=task.status|panel_status panel_id=task.id panel_notes=task.notes panel_name=task.name only %}
+                  {% include 'task_panel.html' with panel_status=task.status|panel_status panel_id=task.id panel_notes=task.notes panel_name=task.name panel_contributors=task.contributors.all logged_in_user=user only %}
                 {% endfor %}
                 <button type="button" class="btn btn-default btn-sm btn-block new-task">
                   <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
