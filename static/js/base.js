@@ -8,6 +8,8 @@ $(document).ready(function(){
     autoclose: true,
     todayHighlight: true,
   });
+  $('#start-date').datepicker('update', moment().subtract(14, 'days').format('M-D-YYYY'));
+  $('#end-date').datepicker('update', moment().add(14, 'days').format('M-D-YYYY'));
 
   $('#choose-filters').click(function(){
     $('#filter-modal').modal('show');

@@ -23,9 +23,9 @@ def calendar(request):
     end_date_input = request.GET.get('end-date')
     
     if start_date_input is None and end_date_input is None:
-        # with no date range specified, default is today +/- 15 days
-        start_date = date.today() - timedelta(days=15)
-        end_date = date.today() + timedelta(days=15)
+        # with no date range specified, default is today +/- 14 days
+        start_date = date.today() - timedelta(days=14)
+        end_date = date.today() + timedelta(days=14)
     else:
         # use specified date range
         d1 = start_date_input.split('-')
