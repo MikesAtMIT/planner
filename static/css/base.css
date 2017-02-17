@@ -9,3 +9,10 @@ body{
 .checkbox:not(.hidden) {
   margin-top: 10px;
 }
+
+#select-all-projects:hover,
+#deselect-all-projects:hover,
+#select-all-users:hover,
+#deselect-all-users:hover {
+  cursor: pointer;
+}

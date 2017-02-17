@@ -86,8 +86,9 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="form-group col-xs-3">
+                  <div class="form-group col-xs-4">
                     <label for="filter-users">Users</label>
+                    ( <a id="select-all-users">All</a> / <a id="deselect-all-users">None</a> )
                     {% for u in all_users %}
                       <div class="checkbox">
                         <label>
@@ -101,8 +102,9 @@
                       </div>
                     {% endfor %}
                   </div>
-                  <div class="form-group col-xs-9">
+                  <div class="form-group col-xs-8">
                     <label for="filter-projects">Projects</label>
+                    ( <a id="select-all-projects">All</a> / <a id="deselect-all-projects">None</a> )
                     {% for project in all_projects %}
                       <div class="checkbox project-checkbox" data-contributors="{{ project.contributor_id_list }}">
                         <label>

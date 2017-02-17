@@ -52,4 +52,19 @@ $(document).ready(function(){
     $('#end-date-hidden').val(endDateString);
   });
 
+  $('#select-all-users').click(function() {
+    $('.user-checkbox').attr('checked', true);
+    filterProjects();
+  });
+  $('#deselect-all-users').click(function() {
+    $('.user-checkbox').attr('checked', false);
+    filterProjects();
+  });
+  $('#select-all-projects').click(function() {
+    $('.project-checkbox').not('.hidden').find('input').attr('checked', true);
+  });
+  $('#deselect-all-projects').click(function() {
+    $('.project-checkbox input').attr('checked', false);
+  });
+
 });
