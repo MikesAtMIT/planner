@@ -74,6 +74,18 @@
               </div>
               <div class="modal-body">
                 <div class="row">
+                  <div class="form-group col-xs-6">
+                    <label for="start-date">Start Date</label>
+                    <input type="text" class="form-control" id="start-date" placeholder="From" />
+                    <input type="hidden" name="start-date" id="start-date-hidden" />
+                  </div>
+                  <div class="form-group col-xs-6">
+                    <label for="end-date">End Date</label>
+                    <input type="text" class="form-control" id="end-date" placeholder="To" />
+                    <input type="hidden" name="end-date" id="end-date-hidden" />
+                  </div>
+                </div>
+                <div class="row">
                   <div class="form-group col-xs-3">
                     <label for="filter-users">Users</label>
                     {% for u in all_users %}
@@ -99,18 +111,6 @@
                         </label>
                       </div>
                     {% endfor %}
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="form-group col-xs-6">
-                    <label for="start-date">Start Date</label>
-                    <input type="text" class="form-control" id="start-date" placeholder="From" />
-                    <input type="hidden" name="start-date" id="start-date-hidden" />
-                  </div>
-                  <div class="form-group col-xs-6">
-                    <label for="end-date">End Date</label>
-                    <input type="text" class="form-control" id="end-date" placeholder="To" />
-                    <input type="hidden" name="end-date" id="end-date-hidden" />
                   </div>
                 </div>
               </div>
