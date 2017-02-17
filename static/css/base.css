@@ -5,3 +5,7 @@ body{
 #choose-filters:hover {
   cursor: pointer;
 }
+
+.checkbox:not(.hidden) {
+  margin-top: 10px;
+}
