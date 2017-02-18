@@ -11,6 +11,8 @@ $(document).ready(function(){
     jump_to_row($('.today')); 
   }
 
+  const logged_in_user = $('#user-menu').data('id');
+
   $('table').on('click', '.task-toggle', function(){
     var $panel = $(this).parents('.task-panel');
     var task_id = $panel.attr('data-id');
@@ -75,12 +77,21 @@ $(document).ready(function(){
     var experiment = $panel.parent().attr('data-experiment-id');
     var name = $panel.find('.task-name').text();
     var notes = $panel.find('.task-name').attr('data-content');
+    var contributors = $panel.find('.task-contributors').attr('data-contributors').split(',');
 
     $('#task-id').val(task_id);
     $('#task-experiment').val(experiment);
     $('#task-date-datepicker').datepicker('setDate', date);
     $('#task-name').val(name);
     $('#task-notes').val(notes);
+    $('.contributor-checkbox').each(function() {
+      if (contributors.includes($(this).attr('data-id'))) {
+        $(this).attr('checked', true);
+      } else {
+        $(this).attr('checked', false);
+      }
+    });
+
     $('#task-modal .modal-title').html('Edit Task');
     $('#task-modal').modal('show');
   });
@@ -94,6 +105,9 @@ $(document).ready(function(){
     $('#task-date-datepicker').datepicker('setDate', date);
     $('#task-name').val('');
     $('#task-notes').val('');
+    $('.contributor-checkbox').each(function() {
+      $(this).attr('checked', parseInt($(this).attr('data-id')) === logged_in_user);
+    });
     $('#task-modal .modal-title').html('New Task');
     $('#task-modal').modal('show');
     $('#task-name').focus();
@@ -126,6 +140,20 @@ $(document).ready(function(){
         $new_panel.attr('data-id', data.id);
         $new_panel.find('.task-name').attr('data-content', data.notes).popover();
         $new_panel.find('.task-name').html(data.name);
+
+        var contributor_id_list = data.contributor_id_list.split(',');
+        var contributor_initials_list = data.contributor_initials_list.split(',');
+        var $contributors = $new_panel.find('.task-contributors').attr('data-contributors', data.contributor_id_list);
+        for (var i in contributor_id_list) {
+          var contributor_id = contributor_id_list[i];
+          var contributor_initials = contributor_initials_list[i];
+          var $contributor_icon = $('<div>').addClass('contributor-icon').append(contributor_initials);
+          if (parseInt(contributor_id) === logged_in_user) {
+            $contributor_icon.addClass('contributor-icon-self');
+          }
+          $contributors.append($contributor_icon);
+        }
+
         var $target_td = $('td[data-experiment-id="' + data.experiment + '"][data-date="' + data.date + '"]');
         $new_panel.insertBefore($target_td.children('button'));
         makePanelDraggable($new_panel);

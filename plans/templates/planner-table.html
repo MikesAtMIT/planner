@@ -41,7 +41,7 @@
             {% for task_list in datum.tasks %}
               <td class="column" data-experiment-id="{{ task_list.experiment_id }}" data-date="{{ datum.date|date:"Y-m-d" }}">
                 {% for task in task_list.task_list %}
-                  {% include 'task_panel.html' with panel_status=task.status|panel_status panel_id=task.id panel_notes=task.notes panel_name=task.name panel_contributors=task.contributors.all logged_in_user=user only %}
+                  {% include 'task_panel.html' with panel_status=task.status|panel_status panel_id=task.id panel_notes=task.notes panel_name=task.name panel_contributors=task.contributors.all panel_contributor_id_list=task.contributor_id_list logged_in_user=user only %}
                 {% endfor %}
                 <button type="button" class="btn btn-default btn-sm btn-block new-task">
                   <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -73,6 +73,20 @@
                   <option value="{{ experiment.id }}">{{ experiment.project }} - {{ experiment }}</option>
                 {% endfor %}
               </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Contributors</label>
+            <div class="col-sm-9" id="task-contributors">
+              {% for u in all_users %}
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" name="task_contributors" class="contributor-checkbox" data-id="{{ u.id }}" value="{{ u.id }}"
+                    />
+                    {{ u }}
+                  </label>
+                </div>
+              {% endfor %}
             </div>
           </div>
           <div class="form-group">

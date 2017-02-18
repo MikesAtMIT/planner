@@ -40,6 +40,10 @@ class ContributorBase(models.Model):
     def contributor_id_list(self):
         return ','.join(map(lambda x: str(x.user.id), self.contributors.all()))
 
+    @property
+    def contributor_initials_list(self):
+        return ','.join(map(lambda x: x.initials, self.contributors.all()))
+
     class Meta:
         abstract = True
 

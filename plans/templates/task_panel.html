@@ -1,6 +1,6 @@
 <div class="panel {{ panel_status }} task-panel" data-id="{{ panel_id }}" id="{{ div_id }}">
   <div class="panel-heading">
-    <div class="task-contributors row">
+    <div class="task-contributors row" data-contributors="{{ panel_contributor_id_list }}">
       {% for contributor in panel_contributors %}
         <div class="contributor-icon {% if contributor.user == logged_in_user %}contributor-icon-self{% endif %}">{{ contributor.initials }}</div>
       {% endfor %}

@@ -133,8 +133,15 @@ def save_new_task(request):
         name = request.POST.get('task_name')
         date = request.POST.get('task_date')
         notes = request.POST.get('task_notes')
+        contributors = request.POST.getlist('task_contributors')
+        
         task = Task(name=name, notes=notes, experiment_id=experiment, date=date)
         task.save()
+        for contributor in contributors:
+            user = User.objects.get(pk=int(contributor))
+            task.contributors.add(user.userprofile)
+        task.save()
+
         result = {
             'id': task.id,
             'name': task.name,
@@ -142,6 +149,8 @@ def save_new_task(request):
             'date': task.date,
             'notes': task.notes,
             'status': task.status,
+            'contributor_initials_list': task.contributor_initials_list,
+            'contributor_id_list': task.contributor_id_list,
         }
         return HttpResponse(json.dumps(result))
 
