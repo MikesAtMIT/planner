@@ -8,24 +8,31 @@
   width: 100%;
   padding: 0;
 }
+#th-new-experiment {
+  z-index: 1002;
+}
+.modal-open th.date {
+  transform: translateY(0px) !important;
+}
 th.date{
   position: -webkit-sticky;
   position: -moz-sticky;
   position: -ms-sticky;
   position: -o-sticky;
   position: sticky;
-  top: 50px;
   left: 0px;
   background-color: white;
   opacity: 1;
   z-index: 1001;
 }
-thead th{
+#planner-table thead th{
   position: -webkit-sticky;
   position: -moz-sticky;
   position: -ms-sticky;
   position: -o-sticky;
   position: sticky;
+}
+thead th {
   top: 50px;
   left: 0px;
   background-color: white;

@@ -1,5 +1,21 @@
 $(document).ready(function(){
 
+  // annoying chrome sticky position inconsistency with safari
+  var isChromium = window.chrome,
+    winNav = window.navigator,
+    vendorName = winNav.vendor,
+    isOpera = winNav.userAgent.indexOf("OPR") > -1,
+    isIEedge = winNav.userAgent.indexOf("Edge") > -1,
+    isIOSChrome = winNav.userAgent.match("CriOS");
+
+  function fixChromeOffset() {
+    if(isChromium !== null && isChromium !== undefined && vendorName === "Google Inc." && isOpera == false && isIEedge == false) {
+      var theadOffset = $('#th-new-experiment').outerHeight();
+      $('th.date').css('transform', 'translateY(' + theadOffset + 'px)');
+    }
+  }
+  fixChromeOffset();    // run once on page load
+
   // scroll to today on page load
   function jump_to_row(row){
     var nav_height = $('.navbar').height();
@@ -299,6 +315,9 @@ $(document).ready(function(){
       data: data,
       dataType: 'json',
       success: success,
+      complete: function(jqXHR, textStatus) {
+        fixChromeOffset();
+      }
     });
   });
   
