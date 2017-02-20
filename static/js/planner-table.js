@@ -266,7 +266,7 @@ $(document).ready(function(){
         $new_header.find('.experiment-name').html(data.name);
         $new_header.find('.experiment-objective').html(data.objective);
         $new_header.find('.experiment-notes').html(data.notes);
-        $('thead th.date').after($new_header);
+        $('#th-new-experiment').after($new_header);
 
         // make td to insert in each row
         $sp = $('<span>')
