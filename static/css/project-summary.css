@@ -1,3 +1,46 @@
+#scroll-spy-nav {
+  position: fixed;
+  right: 0;
+}
+#scroll-spy-nav .active > a{
+  border-left: 2px solid #1e90ff;
+  color: #1e90ff;
+  font-weight: bold;
+}
+#scroll-spy-nav .nav .nav {
+  display: none;
+}
+#scroll-spy-nav .nav .active .nav {
+  display: block;
+}
+.nav-outer > li > a {
+
+}
+.nav-outer > li:not(.active) > a:hover {
+  padding-left: 14px;
+}
+.nav-inner > li > a {
+  font-size: 0.8em;
+  padding: 0 0 0 25px;
+}
+#scroll-spy-nav a {
+  color: black;
+}
+.nav-inner .active a {
+  padding-left: 23px;
+}
+.nav-inner li:not(.active) a:hover {
+  padding-left: 24px;
+}
+#scroll-spy-nav li:not(.active) a:hover {
+  border-left: 1px solid #1e90ff;
+}
+#scroll-spy-nav a:hover {
+  background-color: white;
+  color: #1e90ff;
+  font-weight: bold;
+}
+
 .experiment-container {
   margin-left: 15px;
 }

@@ -10,6 +10,7 @@
 {% block customjs %}
 <script src="{% static 'vendor/jquery.cookie.js' %}"></script>
 <script src="{% static 'vendor/jquery-ui-1.11.4.custom/jquery-ui.min.js' %}"></script>
+<script src="{% static 'js/project-summary.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -39,6 +40,23 @@
         {% endfor %}
       </div>
     {% endfor %}
+  </div>
+
+  <div id="scroll-spy-nav" class="navbar col-sm-3" role="navigation">
+    <ul class="nav nav-outer">
+      {% for project in projects %}
+        <li>
+          <a href="#project-{{ project.id }}">{{ project.name }}</a>
+          <ul class="nav nav-inner">
+            {% for experiment in project.experiment_set.all %}
+              <li>
+                <a href="#experiment-{{ experiment.id }}">{{ experiment.name }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </li>
+      {% endfor %}
+    </ul>
   </div>
 
 </div>
