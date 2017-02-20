@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block customcss %}
+<link rel="stylesheet" type="text/css" href="{% static 'vendor/jquery-ui-1.11.4.custom/jquery-ui.min.css' %}" />
+{% endblock %}
+
+{% block customjs %}
+<script src="{% static 'vendor/jquery.cookie.js' %}"></script>
+<script src="{% static 'vendor/jquery-ui-1.11.4.custom/jquery-ui.min.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<h2>Project Confirmed!</h2>
+{% endblock %}

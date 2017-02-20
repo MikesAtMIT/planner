@@ -4,6 +4,8 @@ from . import views
 urlpatterns = [
     url(r'^$', views.index),
     url(r'^calendar/$', views.calendar),
+    url(r'^new-project/$', views.new_project),
+    url(r'^confirm-project/$', views.confirm_project, name='confirm-project'),
 
     # ajax endpoints
     url(r'^toggle-task/$', views.toggle_task),

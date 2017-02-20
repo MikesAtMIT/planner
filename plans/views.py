@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 from plans.models import *
+from plans.forms import NewProjectForm
 
 from datetime import date, timedelta
 import json
@@ -85,13 +87,43 @@ def calendar(request):
 
     context = {
         'all_projects': Project.objects.exclude(status='D'),     # for nav menu
-        'projects': projects,
+        'projects': project_list,
         'experiments': experiment_list,
         'data': data,
         'dates': dates,
         'all_users': User.objects.all(),
     }
     return render(request, 'planner-table.html', context)
+
+
+@login_required(login_url='/sign-in/')
+def new_project(request):
+    if request.method == 'POST':
+        form = NewProjectForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            objective = form.cleaned_data['objective']
+            notes = form.cleaned_data['notes']
+            user = request.user
+
+            new_project = Project(
+                name=name,
+                objective=objective,
+                notes=notes,
+            )
+            new_project.save()
+            new_project.contributors.add(user.userprofile)
+            new_project.save()
+
+            return HttpResponseRedirect(reverse('confirm-project'))
+    else:
+        form = NewProjectForm()
+    return render(request, 'new-project.html', { 'form': form })
+
+
+@login_required(login_url='/sign-in/')
+def confirm_project(request):
+    return render(request, 'confirm-project.html')
 
 
 @login_required(login_url='/sign-in/')
