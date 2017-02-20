@@ -143,7 +143,8 @@ $(document).ready(function(){
 
         var contributor_id_list = data.contributor_id_list.split(',');
         var contributor_initials_list = data.contributor_initials_list.split(',');
-        var $contributors = $new_panel.find('.task-contributors').attr('data-contributors', data.contributor_id_list);
+        var $contributors = $new_panel.find('.task-contributors');
+        $contributors.attr('data-contributors', data.contributor_id_list);
         for (var i in contributor_id_list) {
           var contributor_id = contributor_id_list[i];
           var contributor_initials = contributor_initials_list[i];
@@ -172,6 +173,22 @@ $(document).ready(function(){
           var $target_td = $('td[data-experiment-id="' + data.experiment + '"][data-date="' + data.date + '"]');
           $panel.insertBefore($target_td.children('button'));
         }
+
+        var contributor_id_list = data.contributor_id_list.split(',');
+        var contributor_initials_list = data.contributor_initials_list.split(',');
+        var $contributors = $panel.find('.task-contributors');
+        $contributors.attr('data-contributors', data.contributor_id_list);
+        $contributors.empty();
+        for (var i in contributor_id_list) {
+          var contributor_id = contributor_id_list[i];
+          var contributor_initials = contributor_initials_list[i];
+          var $contributor_icon = $('<div>').addClass('contributor-icon').append(contributor_initials);
+          if (parseInt(contributor_id) === logged_in_user) {
+            $contributor_icon.addClass('contributor-icon-self');
+          }
+          $contributors.append($contributor_icon);
+        }
+
         $('#task-modal').modal('hide');
       }
     }

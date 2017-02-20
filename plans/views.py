@@ -163,12 +163,18 @@ def update_task(request):
         name = request.POST.get('task_name')
         date = request.POST.get('task_date')
         notes = request.POST.get('task_notes')
+        contributors = request.POST.getlist('task_contributors')
 
         task = Task.objects.get(pk=task_id)
         task.name = name
         task.experiment_id = experiment
         task.date = date
         task.notes = notes
+        task.contributors.clear()
+        for contributor in contributors:
+            user = User.objects.get(pk=int(contributor))
+            task.contributors.add(user.userprofile)
+
         task.save()
 
         result = {
@@ -178,6 +184,8 @@ def update_task(request):
             'date': task.date,
             'notes': task.notes,
             'status': task.status,
+            'contributor_initials_list': task.contributor_initials_list,
+            'contributor_id_list': task.contributor_id_list,
         }
         return HttpResponse(json.dumps(result))
 
