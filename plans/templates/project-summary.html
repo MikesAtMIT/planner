@@ -20,10 +20,10 @@
     {% for project in projects %}
       <div class="project-container">
         <h3 id="project-{{ project.id }}">Project: {{ project.name }}</h3>
-        {% for experiment in project.experiment_set.all %}
+        {% for experiment in project.get_active_experiments %}
           <div class="experiment-container">
             <h4 id="experiment-{{ experiment.id }}">Experiment: {{ experiment.name }}</h4>
-            {% for task in experiment.get_tasks_by_date %}
+            {% for task in experiment.get_active_tasks_by_date %}
               <div class="task-container row bg-{{ task.status|experiment_status }}">
                 <div class="task-date col-sm-2">
                   {{ task.date }}
@@ -48,7 +48,7 @@
         <li>
           <a href="#project-{{ project.id }}">{{ project.name }}</a>
           <ul class="nav nav-inner">
-            {% for experiment in project.experiment_set.all %}
+            {% for experiment in project.get_active_experiments %}
               <li>
                 <a href="#experiment-{{ experiment.id }}">{{ experiment.name }}</a>
               </li>

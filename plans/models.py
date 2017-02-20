@@ -58,6 +58,10 @@ class Project(ContributorBase):
         default = ONGOING,
         )
 
+    @property
+    def get_active_experiments(self):
+        return self.experiment_set.exclude(status='D').order_by('order')
+
     def __unicode__(self):
         return self.name
 
@@ -105,8 +109,8 @@ class Experiment(ContributorBase):
         return list_of_updated_experiments
     
     @property
-    def get_tasks_by_date(self):
-        return self.task_set.order_by('date')
+    def get_active_tasks_by_date(self):
+        return self.task_set.exclude(status='D').order_by('date')
 
     def __unicode__(self):
         return self.name
