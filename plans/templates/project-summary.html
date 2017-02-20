@@ -31,8 +31,13 @@
                 <div class="task-status col-sm-2">
                   {{ task.get_status_display }}
                 </div>
-                <div class="task-name col-sm-8">
+                <div class="task-name col-sm-6">
                   {{ task.name }}
+                </div>
+                <div class="task-contributors col-sm-2">
+                  {% for contributor in task.contributors.all %}
+                    <div class="contributor-icon">{{ contributor.initials }}</div>
+                  {% endfor %}
                 </div>
               </div>
             {% endfor %}
