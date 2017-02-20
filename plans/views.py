@@ -94,6 +94,7 @@ def calendar(request):
     return render(request, 'planner-table.html', context)
 
 
+@login_required(login_url='/sign-in/')
 def toggle_task(request):
     # ajax endpoint for completing a task
     if request.method == 'POST':
@@ -112,6 +113,7 @@ def toggle_task(request):
         return HttpResponse(json.dumps(result))
 
 
+@login_required(login_url='/sign-in/')
 def delete_task(request):
     # ajax endpoint for deleting a task
     if request.method == 'POST':
@@ -126,6 +128,7 @@ def delete_task(request):
         return HttpResponse(json.dumps(result))
 
 
+@login_required(login_url='/sign-in/')
 def save_new_task(request):
     # ajax endpoint for saving a new task
     if request.method == 'POST':
@@ -155,6 +158,7 @@ def save_new_task(request):
         return HttpResponse(json.dumps(result))
 
 
+@login_required(login_url='/sign-in/')
 def update_task(request):
     # ajax endpoint for updating a task
     if request.method == 'POST':
@@ -190,6 +194,7 @@ def update_task(request):
         return HttpResponse(json.dumps(result))
 
 
+@login_required(login_url='/sign-in/')
 def save_new_experiment(request):
     # ajax endpoint for saving a new experiment
     if request.method == 'POST':
@@ -212,6 +217,7 @@ def save_new_experiment(request):
         return HttpResponse(json.dumps(result))
 
 
+@login_required(login_url='/sign-in/')
 def update_experiment(request):
     # ajax endpoint for updating an experiment
     if request.method == 'POST':
@@ -241,6 +247,7 @@ def update_experiment(request):
         return HttpResponse(json.dumps(result))
 
 
+@login_required(login_url='/sign-in/')
 def toggle_experiment(request):
     # ajax endpoint for completing an experiment
     if request.method == 'POST':
@@ -259,6 +266,7 @@ def toggle_experiment(request):
         return HttpResponse(json.dumps(result))
 
 
+@login_required(login_url='/sign-in/')
 def delete_experiment(request):
     # ajax endpoint for deleting an experiment
     if request.method == 'POST':
@@ -273,6 +281,7 @@ def delete_experiment(request):
         return HttpResponse(json.dumps(result))
 
 
+@login_required(login_url='/sign-in/')
 def update_experiment_order(request):
     # ajax endpoint for updating the sort order of experiments
     if request.method == 'POST':
