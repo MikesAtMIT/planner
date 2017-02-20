@@ -104,6 +104,10 @@ class Experiment(ContributorBase):
         list_of_updated_experiments.append(self)
         return list_of_updated_experiments
     
+    @property
+    def get_tasks_by_date(self):
+        return self.task_set.order_by('date')
+
     def __unicode__(self):
         return self.name
 

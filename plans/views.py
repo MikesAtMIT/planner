@@ -127,6 +127,16 @@ def confirm_project(request):
 
 
 @login_required(login_url='/sign-in/')
+def project_summary(request):
+    context = {
+        'projects': Project.objects.exclude(status='D'),
+    }
+    return render(request, 'project-summary.html', context)
+
+
+# AJAX ENDPOINTS
+
+@login_required(login_url='/sign-in/')
 def toggle_task(request):
     # ajax endpoint for completing a task
     if request.method == 'POST':

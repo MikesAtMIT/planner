@@ -6,6 +6,7 @@ urlpatterns = [
     url(r'^calendar/$', views.calendar),
     url(r'^new-project/$', views.new_project),
     url(r'^confirm-project/$', views.confirm_project, name='confirm-project'),
+    url(r'^project-summary/$', views.project_summary),
 
     # ajax endpoints
     url(r'^toggle-task/$', views.toggle_task),

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load plans_extras %}
+
+{% block customcss %}
+<link rel="stylesheet" type="text/css" href="{% static 'vendor/jquery-ui-1.11.4.custom/jquery-ui.min.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/project-summary.css' %}" />
+{% endblock %}
+
+{% block customjs %}
+<script src="{% static 'vendor/jquery.cookie.js' %}"></script>
+<script src="{% static 'vendor/jquery-ui-1.11.4.custom/jquery-ui.min.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div id="project-summary" class="row">
+  
+  <div id="project-contents" data-spy="scroll" data-target="#project-nav" class="col-sm-9">
+    {% for project in projects %}
+      <div class="project-container">
+        <h3 id="project-{{ project.id }}">Project: {{ project.name }}</h3>
+        {% for experiment in project.experiment_set.all %}
+          <div class="experiment-container">
+            <h4 id="experiment-{{ experiment.id }}">Experiment: {{ experiment.name }}</h4>
+            {% for task in experiment.get_tasks_by_date %}
+              <div class="task-container row bg-{{ task.status|experiment_status }}">
+                <div class="task-date col-sm-2">
+                  {{ task.date }}
+                </div>
+                <div class="task-status col-sm-2">
+                  {{ task.get_status_display }}
+                </div>
+                <div class="task-name col-sm-8">
+                  {{ task.name }}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}

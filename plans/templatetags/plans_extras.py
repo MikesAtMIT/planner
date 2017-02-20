@@ -17,5 +17,6 @@ def experiment_status(value):
         'O': 'warning',
         'C': 'success',
         'A': 'danger',
+        'D': 'muted',
     }
     return d[value]
