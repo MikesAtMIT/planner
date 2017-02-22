@@ -101,11 +101,7 @@ $(document).ready(function(){
     $('#task-name').val(name);
     $('#task-notes').val(notes);
     $('.contributor-checkbox').each(function() {
-      if (contributors.includes($(this).attr('data-id'))) {
-        $(this).attr('checked', true);
-      } else {
-        $(this).attr('checked', false);
-      }
+      $(this).attr('checked', contributors.includes($(this).attr('data-id')));
     });
 
     $('#task-modal .modal-title').html('Edit Task');
@@ -461,6 +457,12 @@ $(document).ready(function(){
         $('#task-date-datepicker').datepicker('setDate', $(this).attr('data-date'));
         $('#task-name').val(ui.draggable.find('.task-name').text());
         $('#task-notes').val(ui.draggable.find('.task-name').attr('data-content'));
+
+        var contributors = ui.draggable.find('.task-contributors').attr('data-contributors').split(',');
+        $('#task-contributors').find('input').each(function() {
+          $(this).attr('checked', contributors.includes($(this).attr('data-id')));
+        });
+
         $('#task-modal .modal-title').html('Edit Task');
         $('#save-task').trigger('click');
       }
